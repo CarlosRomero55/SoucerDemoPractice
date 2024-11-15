@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="EcommerceSuite" parallel="false">
+
+    <!-- Configura el nombre del suite y establece que no se ejecuten en paralelo -->
+    <test name="EcommerceTests">
+
+        <!-- Clases de prueba que serán ejecutadas -->
+        <classes>
+
+            <!-- Test para verificar el flujo de compra completo -->
+            <class name="tests.PurchaseTest"/>
+
+            <!-- Test para verificar el proceso de checkout -->
+            <class name="tests.CheckoutTest"/>
+
+            <!-- Test para verificar la funcionalidad de login y logout -->
+            <class name="tests.LoginTest"/>
+
+            <!-- Test para verificar la funcionalidad de eliminación de productos en el carrito -->
+            <class name="tests.CartTest"/>
+
+        </classes>
+    </test>
+</suite>
