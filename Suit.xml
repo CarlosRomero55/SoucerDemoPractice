@@ -11,19 +11,13 @@
             <!-- Test para verificar el flujo de compra completo -->
             <class name="tests.PurchaseTest"/>
 
-            <!-- Test para verificar el proceso de checkout -->
-            <class name="tests.CheckoutTest"/>
-
             <!-- Test para verificar la funcionalidad de login y logout -->
-            <class name="tests.LoginTest"/>
+            <class name="tests.LogoutTest"/>
 
             <!-- Test para verificar la funcionalidad de eliminación de productos en el carrito -->
             <class name="tests.CartTest"/>
 
         </classes>
     </test>
-    <listeners>
-        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
-    </listeners>
 
 </suite>

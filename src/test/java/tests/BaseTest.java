@@ -1,33 +1,28 @@
 package tests;
-
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import utils.ConfigReader;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.log4testng.Logger;
 
 public class BaseTest {
     protected WebDriver driver;
+    public static final Logger log = Logger.getLogger(BaseTest.class);
 
-    @BeforeClass
+    @BeforeMethod
     public void setUp() {
-        // Configurar WebDriver para Chrome
+
         WebDriverManager.chromedriver().setup();
-
-        // Inicializar WebDriver
         driver = new ChromeDriver();
-
-        // Maximizar ventana del navegador
         driver.manage().window().maximize();
+        driver.get("https://www.saucedemo.com/");
 
-        // Abrir la URL base definida en config.properties
-        driver.get(ConfigReader.getProperty("baseURL"));
     }
 
-    @AfterClass
-    public void tearDown() {
-        // Cerrar el navegador después de las pruebas
+    @AfterMethod
+    public void tearDown() throws InterruptedException {
+        Thread.sleep(5000);
         if (driver != null) {
             driver.quit();
         }

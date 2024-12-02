@@ -1,54 +1,35 @@
 package  tests;
-
-import com.Globant.CartPage;
-import com.Globant.CheckoutPage;
-import com.Globant.InventoryPage;
-import com.Globant.LoginPage;
+import com.Globant.pages.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import utils.ConfigReader;
+
+
 
 public class PurchaseTest extends BaseTest {
 
     @Test
-    public void testPurchaseFlow() {
-        // Instanciamos las páginas necesarias
+    public void completePurchaseFlow() throws InterruptedException {
+
         LoginPage loginPage = new LoginPage(driver);
-        InventoryPage inventoryPage = new InventoryPage(driver);
+        ProductPage productPage = new ProductPage(driver);
         CartPage cartPage = new CartPage(driver);
         CheckoutPage checkoutPage = new CheckoutPage(driver);
 
-        try {
-            // Iniciar sesión con las credenciales obtenidas desde config.properties
-            loginPage.login();
+        // Login
+        loginPage.login("standard_user", "secret_sauce");
 
-            // Verificar si el login fue exitoso antes de continuar
-            Assert.assertTrue(loginPage.isLogoutButtonDisplayed(), "Logout button should be visible after login.");
+        // Select and add product to cart
+        productPage.addRandomProductToCart();
+        productPage.goToShoppingCart();
 
-            // Añadir productos al carrito
-            inventoryPage.addMultipleRandomProductsToCart(3);
+        // Proceed to checkout
+        cartPage.proceedToCheckout();
 
-            // Proceder al carrito
-            inventoryPage.goToCart();
+        // Fill checkout form and complete purchase
+        checkoutPage.fillPersonalData("Carlos", "Romero", "09856931");
+        checkoutPage.completeCheckoutOne();
+        checkoutPage.completeCheckoutTwo();
 
-            // Verificar que el carrito contiene productos antes de proceder
-            Assert.assertTrue(cartPage.getCartItemCount() > 0, "El carrito debe contener productos antes de proceder al checkout.");
-
-            // Proceder al checkout
-            cartPage.proceedToCheckout();
-
-            // Completar el proceso de checkout (introducir datos de usuario si es necesario)
-            String firstName = ConfigReader.getProperty("firstName");
-            String lastName = ConfigReader.getProperty("lastName");
-            String postalCode = ConfigReader.getProperty("postalCode");
-            checkoutPage.enterPersonalInfo(firstName, lastName, postalCode);
-            checkoutPage.continueToFinish();
-
-            // Verificar que se muestre el mensaje de "Gracias" al finalizar la compra
-            Assert.assertTrue(checkoutPage.isThankYouMessageDisplayed(), "El mensaje de agradecimiento no se muestra después de finalizar la compra.");
-        } catch (Exception e) {
-            // En caso de fallo, la prueba reporta la excepción
-            Assert.fail("La prueba de flujo de compra falló debido a una excepción: " + e.getMessage());
-        }
+        Assert.assertTrue(driver.getCurrentUrl().contains("checkout-complete"));
     }
 }
