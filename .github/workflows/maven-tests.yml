@@ -52,11 +52,15 @@ jobs:
         run: |
           mvn test -DbrowserName=${{ github.event.inputs.browserName || 'chrome' }}
 
+      - name: Install Allure CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y allure
+
       - name: Generate Allure Report
         if: steps.build.outcome == 'success'
         run: |
           mkdir -p allure-report
-          mvn allure:report
           allure generate ${{ env.ALLURE_RESULTS_PATH }} -o allure-report --clean
 
       - name: Upload Allure Results
