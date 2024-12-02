@@ -148,6 +148,18 @@
                         </properties>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>io.qameta.allure</groupId>
+                    <artifactId>allure-maven</artifactId>
+                    <version>2.13.8</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>serve</goal> <!-- Se usa 'serve' para servir el reporte en un servidor local -->
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
